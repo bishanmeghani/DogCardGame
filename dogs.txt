@@ -1,0 +1,30 @@
+Annie the Afghan Hound
+4
+15
+6
+1
+Bertie the Boxer
+5
+50
+9
+9
+Betty the Borzoi
+3
+25
+6
+2
+Charlie the Chihuahua
+2
+30
+2
+2
+Chaz the Cocker Spaniel
+2
+80
+9
+4
+Donald the Dalmatian
+5
+65
+7
+3

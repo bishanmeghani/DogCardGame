@@ -1,0 +1,11 @@
+C:\Users\enxbm\Documents\Visual Studio 2017\Projects\DogCardGame\DogCardGame\bin\Debug\DogCardGame.exe.config
+C:\Users\enxbm\Documents\Visual Studio 2017\Projects\DogCardGame\DogCardGame\bin\Debug\DogCardGame.exe
+C:\Users\enxbm\Documents\Visual Studio 2017\Projects\DogCardGame\DogCardGame\bin\Debug\DogCardGame.pdb
+C:\Users\enxbm\Documents\Visual Studio 2017\Projects\DogCardGame\DogCardGame\bin\Debug\DogCardGame.xml
+C:\Users\enxbm\Documents\Visual Studio 2017\Projects\DogCardGame\DogCardGame\obj\Debug\DogCardGame.vbprojAssemblyReference.cache
+C:\Users\enxbm\Documents\Visual Studio 2017\Projects\DogCardGame\DogCardGame\obj\Debug\DogCardGame.Resources.resources
+C:\Users\enxbm\Documents\Visual Studio 2017\Projects\DogCardGame\DogCardGame\obj\Debug\DogCardGame.vbproj.GenerateResource.cache
+C:\Users\enxbm\Documents\Visual Studio 2017\Projects\DogCardGame\DogCardGame\obj\Debug\DogCardGame.vbproj.CoreCompileInputs.cache
+C:\Users\enxbm\Documents\Visual Studio 2017\Projects\DogCardGame\DogCardGame\obj\Debug\DogCardGame.exe
+C:\Users\enxbm\Documents\Visual Studio 2017\Projects\DogCardGame\DogCardGame\obj\Debug\DogCardGame.xml
+C:\Users\enxbm\Documents\Visual Studio 2017\Projects\DogCardGame\DogCardGame\obj\Debug\DogCardGame.pdb

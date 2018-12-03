@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{42F55173-21E2-46B5-81E6-75686754BCCF}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>DogCardGame.Module1</StartupObject>
+    <StartupObject>DogCardGame.Game</StartupObject>
     <RootNamespace>DogCardGame</RootNamespace>
     <AssemblyName>DogCardGame</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -67,7 +67,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Module1.vb" />
+    <Compile Include="Game.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

@@ -1,6 +1,6 @@
 ﻿Imports System.IO
 
-Module Module1
+Module Game
 
     Sub Menu()
 

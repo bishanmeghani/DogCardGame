@@ -1,5 +1,5 @@
 ﻿Imports System.IO
-
+Imports System.Math
 
 Module Game
 
@@ -61,15 +61,34 @@ Module Game
 
         Do While (Not line Is Nothing)
             list.Add(line)
-            Console.WriteLine(line)
             line = fileReader.ReadLine
         Loop
 
-        Dim cardDogName = New String() {"Annie the Afghan Hound", "Bertie the Boxer", "Betty the Borzoi", "Charlie the Chihuahua", "Chaz the Cocker Spaniel", "Donald the Dalmatian"}
-        Dim cardDogExerciseScores = New Integer() {4, 5, 3, 2, 2, 5}
-        Dim cardDogIntelligenceScores = New Integer() {15, 50, 25, 30, 80, 65}
-        Dim cardDogFriendlinessScores = New Integer() {6, 9, 6, 2, 9, 7}
-        Dim cardDogDroolScores = New Integer() {1, 9, 2, 2, 4, 3}
+        Dim cardDogName As New List(Of String)
+        Dim cardDogExerciseScores As New List(Of Integer)
+        Dim cardDogIntelligenceScores As New List(Of Integer)
+        Dim cardDogFriendlinessScores As New List(Of Integer)
+        Dim cardDogDroolScores As New List(Of Integer)
+
+        For i = 0 To 149 Step 5
+            cardDogName.Add(list(i))
+        Next
+
+        For i = 1 To 149 Step 5
+            cardDogExerciseScores.Add(list(i))
+        Next
+
+        For i = 2 To 149 Step 5
+            cardDogIntelligenceScores.Add(list(i))
+        Next
+
+        For i = 3 To 149 Step 5
+            cardDogFriendlinessScores.Add(list(i))
+        Next
+
+        For i = 4 To 149 Step 5
+            cardDogDroolScores.Add(list(i))
+        Next
 
 
         Dim cards As New List(Of Card)
@@ -80,14 +99,6 @@ Module Game
 
         Dim playerPile As New List(Of Card)
         Dim computerPile As New List(Of Card)
-
-        For i = 0 To 2
-            playerPile.Add(cards(i))
-        Next
-
-        For i = 3 To 5
-            computerPile.Add(cards(i))
-        Next
 
         Dim responseCategory As String
         Dim playerStat As Integer
@@ -128,13 +139,22 @@ Module Game
 
                 End While
 
+                For i = 0 To Floor((totalNumberOfCards - 1) / 2)
+                    playerPile.Add(cards(i))
+                Next
+
+                For i = Ceiling((totalNumberOfCards - 1) / 2) To totalNumberOfCards - 1
+                    computerPile.Add(cards(i))
+                Next
+
+                Console.WriteLine("Your current card: " + currentPlayerCard.Name)
+                Console.WriteLine("Computer's current card: " + currentComputerCard.Name)
+
                 While playerPile.Count <> 0 Or computerPile.Count <> 0
 
                     currentPlayerCard = cards(firstCardOnPile)
-                    currentComputerCard = cards(firstCardOnPile + 3)
+                    currentComputerCard = cards(Ceiling((totalNumberOfCards - 1) / 2))
 
-                    Console.WriteLine("Your current card: " + currentPlayerCard.Name)
-                    Console.WriteLine("Computer's current card: " + currentComputerCard.Name)
 
                     Console.WriteLine("Please enter E (Exercise), I (Intelligence), F (Friendliness),  or D (Drool)")
                     responseCategory = Console.ReadLine().ToUpper

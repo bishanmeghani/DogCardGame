@@ -37,16 +37,16 @@ Module Game
         Console.WriteLine("You win")
         _playerPile.Remove(_currentPlayerCard)
         _computerPile.Remove(_currentComputerCard)
-        _playerPile.Add(_currentPlayerCard)
         _playerPile.Add(_currentComputerCard)
+        _playerPile.Add(_currentPlayerCard)
     End Sub
 
-    Sub ComputerWins(_playerPile, _computerPile, _currentPlayerCard, _currentComputerCard)
+    Sub ComputerWins(_playerPile As List(Of Card), _computerPile As List(Of Card), _currentPlayerCard As Card, _currentComputerCard As Card)
         Console.WriteLine("Computer wins")
         _computerPile.Remove(_currentComputerCard)
         _playerPile.Remove(_currentPlayerCard)
-        _computerPile.Add(_currentComputerCard)
         _computerPile.Add(_currentPlayerCard)
+        _computerPile.Add(_currentComputerCard)
     End Sub
 
     Sub Main()
@@ -100,9 +100,11 @@ Module Game
         Dim playerPile As New List(Of Card)
         Dim computerPile As New List(Of Card)
 
-        Dim responseCategory As String
+        Dim responseCategory As String = Nothing
         Dim playerStat As Integer
         Dim computerStat As Integer
+        Dim playerWinsLastRound As Boolean = True
+
 
         Dim allowedResponseCategories As New ArrayList
         allowedResponseCategories.Add("E")
@@ -121,13 +123,13 @@ Module Game
 
         menuOption = Console.ReadLine().ToUpper
 
-        Dim totalNumberOfCards As Integer
-        totalNumberOfCards = 0
+        Dim totalNumberOfCards As Integer = 0
 
-        While True
+        Dim roundNumber As Integer = 0
+
+        Do
 
             If menuOption = "P" Then
-
                 While totalNumberOfCards < 4 Or totalNumberOfCards > 30 Or totalNumberOfCards Mod 2 = 1
                     Console.WriteLine("Please enter the total number of cards that you want to play with (it must be an even number between 4 and 30 (inclusive)).")
                     totalNumberOfCards = Console.ReadLine()
@@ -136,7 +138,6 @@ Module Game
                         DisplayMenu()
                         menuOption = Console.ReadLine().ToUpper
                     End If
-
                 End While
 
                 For i = 0 To Floor((totalNumberOfCards - 1) / 2)
@@ -147,67 +148,75 @@ Module Game
                     computerPile.Add(cards(i))
                 Next
 
-                Console.WriteLine("Your current card: " + currentPlayerCard.Name)
-                Console.WriteLine("Computer's current card: " + currentComputerCard.Name)
 
                 While playerPile.Count <> 0 Or computerPile.Count <> 0
 
-                    currentPlayerCard = cards(firstCardOnPile)
-                    currentComputerCard = cards(Ceiling((totalNumberOfCards - 1) / 2))
-
-
-                    Console.WriteLine("Please enter E (Exercise), I (Intelligence), F (Friendliness),  or D (Drool)")
-                    responseCategory = Console.ReadLine().ToUpper
-
-                    If allowedResponseCategories.Contains(responseCategory) = False Then
-                        Console.WriteLine("Please enter either E, I, F, D")
-                    Else
-
-                        If responseCategory = "E" Then
-                            playerStat = playerPile(firstCardOnPile).ExerciseScore
-                            computerStat = computerPile(firstCardOnPile).ExerciseScore
-
-
-                        ElseIf responseCategory = "I" Then
-                            playerStat = playerPile(firstCardOnPile).IntelligenceScore
-                            computerStat = computerPile(firstCardOnPile).IntelligenceScore
-
-
-                        ElseIf responseCategory = "F" Then
-                            playerStat = playerPile(firstCardOnPile).FriendlinessScore
-                            computerStat = computerPile(firstCardOnPile).FriendlinessScore
-
-
-                        ElseIf responseCategory = "D" Then
-                            playerStat = playerPile(firstCardOnPile).DroolScore
-                            computerStat = computerPile(firstCardOnPile).DroolScore
-                        End If
-
-
-
-                        If responseCategory = "D" Then
-                            If playerStat <= computerStat Then
-                                YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard)
-                            Else
-                                ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard)
-                            End If
-                        Else
-                            If playerStat >= computerStat Then
-                                YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard)
-                            Else
-                                ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard)
-                            End If
-                        End If
-                        firstCardOnPile = firstCardOnPile + 1
+                    If playerPile.Count = 0 Then
+                        Console.WriteLine("Congratulations, you have won the game")
+                        Exit While
                     End If
 
-                    For Each card In playerPile
-                        Console.WriteLine(card.Name)
-                    Next
-                    Console.WriteLine("!")
-                    For Each card In computerPile
-                        Console.WriteLine(card.Name)
-                    Next
+                    If computerPile.Count = 0 Then
+                        Console.WriteLine("Bad luck, the computer has won the game")
+                        Exit While
+                    End If
+
+                    currentPlayerCard = playerPile.First
+                    currentComputerCard = computerPile.First
+
+                    Console.WriteLine("Your current card: " + currentPlayerCard.Name)
+                    Console.WriteLine("Computer's current card: " + currentComputerCard.Name)
+
+                    Do
+                        Console.WriteLine("Please enter either E, I, F, D")
+                        responseCategory = Console.ReadLine().ToUpper
+                    Loop While allowedResponseCategories.Contains(responseCategory) = False
+
+                    If playerWinsLastRound = False Then
+                        responseCategory = allowedResponseCategories(Floor(Rnd() * allowedResponseCategories.Count))
+                        Console.WriteLine("Category has been chosen by computer: " + responseCategory)
+                    End If
+
+
+                    If responseCategory = "E" Then
+                        playerStat = playerPile.First.ExerciseScore
+                        computerStat = computerPile.First.ExerciseScore
+                    ElseIf responseCategory = "I" Then
+                        playerStat = playerPile.First.IntelligenceScore
+                        computerStat = computerPile.First.IntelligenceScore
+                    ElseIf responseCategory = "F" Then
+                        playerStat = playerPile.First.FriendlinessScore
+                        computerStat = computerPile.First.FriendlinessScore
+                    ElseIf responseCategory = "D" Then
+                        playerStat = playerPile.First.DroolScore
+                        computerStat = computerPile.First.DroolScore
+                    End If
+
+                    If responseCategory = "D" Then
+                        If playerStat <= computerStat Then
+                            YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard)
+                            playerWinsLastRound = True
+                        Else
+                            ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard)
+                            playerWinsLastRound = False
+                        End If
+                    Else
+                        If playerStat >= computerStat Then
+                            YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard)
+                            playerWinsLastRound = True
+                        Else
+                            ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard)
+                            playerWinsLastRound = False
+                        End If
+                    End If
+                    firstCardOnPile = firstCardOnPile + 1
+
+
+                    roundNumber = roundNumber + 1
+                    Console.WriteLine("Round " + roundNumber.ToString)
+
+
+
 
                 End While
 
@@ -221,7 +230,7 @@ Module Game
                 Console.WriteLine("Please enter either P or Q")
                 menuOption = Console.ReadLine().ToUpper
             End If
-        End While
+        Loop
 
         Console.Read()
 

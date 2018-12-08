@@ -32,7 +32,6 @@ Module Game
 
     End Sub
 
-
     Sub YouWin(_playerPile As List(Of Card), _computerPile As List(Of Card), _currentPlayerCard As Card, _currentComputerCard As Card)
         Console.WriteLine("You win")
         _playerPile.Remove(_currentPlayerCard)
@@ -48,6 +47,19 @@ Module Game
         _computerPile.Add(_currentPlayerCard)
         _computerPile.Add(_currentComputerCard)
     End Sub
+
+    Sub Shuffle(Of T)(list As IList(Of T))
+        Dim r As Random = New Random()
+        For i = 0 To list.Count - 1
+            Dim index As Integer = r.Next(i, list.Count)
+            If i <> index Then
+                Dim temp As T = list(i)
+                list(i) = list(index)
+                list(index) = temp
+            End If
+        Next
+    End Sub
+
 
     Sub Main()
 
@@ -69,6 +81,7 @@ Module Game
         Dim cardDogIntelligenceScores As New List(Of Integer)
         Dim cardDogFriendlinessScores As New List(Of Integer)
         Dim cardDogDroolScores As New List(Of Integer)
+        Dim doYouwantToShuffle As Boolean = False
 
         For i = 0 To 149 Step 5
             cardDogName.Add(list(i))
@@ -97,6 +110,10 @@ Module Game
             cards.Add(New Card(cardDogName(i), cardDogExerciseScores(i), cardDogIntelligenceScores(i), cardDogFriendlinessScores(i), cardDogDroolScores(i)))
         Next
 
+
+
+
+
         Dim playerPile As New List(Of Card)
         Dim computerPile As New List(Of Card)
 
@@ -106,11 +123,12 @@ Module Game
         Dim playerWinsLastRound As Boolean = True
 
 
-        Dim allowedResponseCategories As New ArrayList
-        allowedResponseCategories.Add("E")
-        allowedResponseCategories.Add("I")
-        allowedResponseCategories.Add("F")
-        allowedResponseCategories.Add("D")
+        Dim allowedResponseCategories As New ArrayList From {
+            "E", 'Exercise
+            "I", 'Intelligence
+            "F", 'Friendliness
+            "D"  'Drool
+        }
 
         Dim firstCardOnPile As Integer
         firstCardOnPile = 0
@@ -122,6 +140,11 @@ Module Game
         Dim menuOption As Char
 
         menuOption = Console.ReadLine().ToUpper
+
+
+        If doYouwantToShuffle = True Then
+            Shuffle(Of Card)(cards)
+        End If
 
         Dim totalNumberOfCards As Integer = 0
 
@@ -214,9 +237,6 @@ Module Game
 
                     roundNumber = roundNumber + 1
                     Console.WriteLine("Round " + roundNumber.ToString)
-
-
-
 
                 End While
 

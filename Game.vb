@@ -32,20 +32,22 @@ Module Game
 
     End Sub
 
-    Sub YouWin(_playerPile As List(Of Card), _computerPile As List(Of Card), _currentPlayerCard As Card, _currentComputerCard As Card)
+    Sub YouWin(_playerPile As List(Of Card), _computerPile As List(Of Card), _currentPlayerCard As Card, _currentComputerCard As Card, playerWinsLastRound As Boolean)
         Console.WriteLine("You win")
         _playerPile.Remove(_currentPlayerCard)
         _computerPile.Remove(_currentComputerCard)
         _playerPile.Add(_currentComputerCard)
         _playerPile.Add(_currentPlayerCard)
+        playerWinsLastRound = True
     End Sub
 
-    Sub ComputerWins(_playerPile As List(Of Card), _computerPile As List(Of Card), _currentPlayerCard As Card, _currentComputerCard As Card)
+    Sub ComputerWins(_playerPile As List(Of Card), _computerPile As List(Of Card), _currentPlayerCard As Card, _currentComputerCard As Card, playerWinsLastRound As Boolean)
         Console.WriteLine("Computer wins")
         _computerPile.Remove(_currentComputerCard)
         _playerPile.Remove(_currentPlayerCard)
         _computerPile.Add(_currentPlayerCard)
         _computerPile.Add(_currentComputerCard)
+        playerWinsLastRound = False
     End Sub
 
     Sub Shuffle(Of T)(list As IList(Of T))
@@ -81,7 +83,7 @@ Module Game
         Dim cardDogIntelligenceScores As New List(Of Integer)
         Dim cardDogFriendlinessScores As New List(Of Integer)
         Dim cardDogDroolScores As New List(Of Integer)
-        Dim doYouwantToShuffle As Boolean = False
+        Dim doYouwantToShuffle As String
 
         For i = 0 To 149 Step 5
             cardDogName.Add(list(i))
@@ -110,10 +112,6 @@ Module Game
             cards.Add(New Card(cardDogName(i), cardDogExerciseScores(i), cardDogIntelligenceScores(i), cardDogFriendlinessScores(i), cardDogDroolScores(i)))
         Next
 
-
-
-
-
         Dim playerPile As New List(Of Card)
         Dim computerPile As New List(Of Card)
 
@@ -141,8 +139,10 @@ Module Game
 
         menuOption = Console.ReadLine().ToUpper
 
+        Console.WriteLine("Do you want to shuffle? Please enter yes or no")
+        doYouwantToShuffle = Console.ReadLine()
 
-        If doYouwantToShuffle = True Then
+        If doYouwantToShuffle.ToLower = "yes" Or doYouwantToShuffle.ToLower = "y" Then
             Shuffle(Of Card)(cards)
         End If
 
@@ -175,20 +175,21 @@ Module Game
                 While playerPile.Count <> 0 Or computerPile.Count <> 0
 
                     If playerPile.Count = 0 Then
-                        Console.WriteLine("Congratulations, you have won the game")
+                        Console.WriteLine("Bad luck, the computer has won the game")
                         Exit While
                     End If
 
                     If computerPile.Count = 0 Then
-                        Console.WriteLine("Bad luck, the computer has won the game")
+                        Console.WriteLine("Congratulations, you have won the game")
                         Exit While
                     End If
 
                     currentPlayerCard = playerPile.First
                     currentComputerCard = computerPile.First
 
-                    Console.WriteLine("Your current card: " + currentPlayerCard.Name)
-                    Console.WriteLine("Computer's current card: " + currentComputerCard.Name)
+                    Console.WriteLine("Your current card: " + currentPlayerCard.Name + " E: " + currentPlayerCard.ExerciseScore.ToString + " I: " + currentPlayerCard.IntelligenceScore.ToString + " F: " + currentPlayerCard.FriendlinessScore.ToString + " D: " + currentPlayerCard.DroolScore.ToString)
+                    Console.WriteLine("Computer's current card: " + currentComputerCard.Name + " E: " + currentComputerCard.ExerciseScore.ToString + currentComputerCard.ExerciseScore.ToString + " I: " + currentComputerCard.IntelligenceScore.ToString + " F: " + currentComputerCard.FriendlinessScore.ToString + " D: " + currentComputerCard.DroolScore.ToString)
+
 
                     Do
                         Console.WriteLine("Please enter either E, I, F, D")
@@ -199,7 +200,6 @@ Module Game
                         responseCategory = allowedResponseCategories(Floor(Rnd() * allowedResponseCategories.Count))
                         Console.WriteLine("Category has been chosen by computer: " + responseCategory)
                     End If
-
 
                     If responseCategory = "E" Then
                         playerStat = playerPile.First.ExerciseScore
@@ -217,23 +217,18 @@ Module Game
 
                     If responseCategory = "D" Then
                         If playerStat <= computerStat Then
-                            YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard)
-                            playerWinsLastRound = True
+                            YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard, playerWinsLastRound)
                         Else
-                            ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard)
-                            playerWinsLastRound = False
+                            ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard, playerWinsLastRound)
                         End If
                     Else
                         If playerStat >= computerStat Then
-                            YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard)
-                            playerWinsLastRound = True
+                            YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard, playerWinsLastRound)
                         Else
-                            ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard)
-                            playerWinsLastRound = False
+                            ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard, playerWinsLastRound)
                         End If
                     End If
                     firstCardOnPile = firstCardOnPile + 1
-
 
                     roundNumber = roundNumber + 1
                     Console.WriteLine("Round " + roundNumber.ToString)

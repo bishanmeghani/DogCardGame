@@ -29,17 +29,17 @@ Buddy the Border Collie
 5
 2
 Buster the Boston Terrier
-7
+2
 75
 3
 4
 Charlie the Chihuahua
-2
+3
 30
 2
 2
 Chaz the Cocker Spaniel
-2
+4
 80
 9
 4
@@ -49,12 +49,12 @@ Chump the Cockapoo
 2
 4
 Dexter the Dachsund
-8
+1
 95
 4
 1
 Diesel the Doberman
-1
+5
 54
 6
 8
@@ -79,7 +79,7 @@ Finn the Fox Terrrier
 8
 4
 Frankie the Finnish Spitz
-9
+1
 87
 7
 8
@@ -94,12 +94,12 @@ Gizmo the Greyhound
 5
 3
 Gunner the Great Dane
-8
+4
 67
 4
 7
 Gus the Gordon Setter
-5
+2
 41
 6
 9
@@ -109,7 +109,7 @@ Hank the Harrier
 7
 8
 Harley the Havanese
-7
+4
 69
 8
 4
@@ -119,7 +119,7 @@ Kobe the Kuvasz
 7
 3
 Lulu the Labradoodle
-9
+5
 44
 3
 8
@@ -129,12 +129,12 @@ Mophead the Mastiff
 3
 7
 Poco the Poodle
-7
+3
 82
 7
 8
 Vinnie the Vizsla
-6
+2
 77
 5
 1
@@ -144,7 +144,7 @@ Wolfie the Weimaraner
 2
 2
 Yayo the Yorkipoo
-9
+5
 73
 4
 4

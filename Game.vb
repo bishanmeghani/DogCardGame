@@ -1,6 +1,13 @@
 ﻿Imports System.IO
 Imports System.Math
 
+'TO DO LIST:
+'Change the exercise values betwwen 1 to 5
+
+'E, I , F, D should only be asked if player wins the round
+
+
+
 Module Game
 
     Public Class Card
@@ -32,22 +39,21 @@ Module Game
 
     End Sub
 
-    Sub YouWin(_playerPile As List(Of Card), _computerPile As List(Of Card), _currentPlayerCard As Card, _currentComputerCard As Card, playerWinsLastRound As Boolean)
+    Sub YouWin(_playerPile As List(Of Card), _computerPile As List(Of Card), _currentPlayerCard As Card, _currentComputerCard As Card)
         Console.WriteLine("You win")
         _playerPile.Remove(_currentPlayerCard)
         _computerPile.Remove(_currentComputerCard)
         _playerPile.Add(_currentComputerCard)
         _playerPile.Add(_currentPlayerCard)
-        playerWinsLastRound = True
+
     End Sub
 
-    Sub ComputerWins(_playerPile As List(Of Card), _computerPile As List(Of Card), _currentPlayerCard As Card, _currentComputerCard As Card, playerWinsLastRound As Boolean)
+    Sub ComputerWins(_playerPile As List(Of Card), _computerPile As List(Of Card), _currentPlayerCard As Card, _currentComputerCard As Card)
         Console.WriteLine("Computer wins")
         _computerPile.Remove(_currentComputerCard)
         _playerPile.Remove(_currentPlayerCard)
         _computerPile.Add(_currentPlayerCard)
         _computerPile.Add(_currentComputerCard)
-        playerWinsLastRound = False
     End Sub
 
     Sub Shuffle(Of T)(list As IList(Of T))
@@ -148,7 +154,7 @@ Module Game
 
         Dim totalNumberOfCards As Integer = 0
 
-        Dim roundNumber As Integer = 0
+        Dim roundNumber As Integer = 1
 
         Do
 
@@ -174,6 +180,8 @@ Module Game
 
                 While playerPile.Count <> 0 Or computerPile.Count <> 0
 
+                    Console.WriteLine(vbCrLf + "Round " + roundNumber.ToString + vbCrLf)
+
                     If playerPile.Count = 0 Then
                         Console.WriteLine("Bad luck, the computer has won the game")
                         Exit While
@@ -188,17 +196,17 @@ Module Game
                     currentComputerCard = computerPile.First
 
                     Console.WriteLine("Your current card: " + currentPlayerCard.Name + " E: " + currentPlayerCard.ExerciseScore.ToString + " I: " + currentPlayerCard.IntelligenceScore.ToString + " F: " + currentPlayerCard.FriendlinessScore.ToString + " D: " + currentPlayerCard.DroolScore.ToString)
-                    Console.WriteLine("Computer's current card: " + currentComputerCard.Name + " E: " + currentComputerCard.ExerciseScore.ToString + currentComputerCard.ExerciseScore.ToString + " I: " + currentComputerCard.IntelligenceScore.ToString + " F: " + currentComputerCard.FriendlinessScore.ToString + " D: " + currentComputerCard.DroolScore.ToString)
 
 
-                    Do
-                        Console.WriteLine("Please enter either E, I, F, D")
-                        responseCategory = Console.ReadLine().ToUpper
-                    Loop While allowedResponseCategories.Contains(responseCategory) = False
-
-                    If playerWinsLastRound = False Then
+                    If playerWinsLastRound = True Then
+                        Do
+                            Console.WriteLine("Please enter either E, I, F, D")
+                            responseCategory = Console.ReadLine().ToUpper
+                        Loop While (allowedResponseCategories.Contains(responseCategory) = False)
+                    Else
                         responseCategory = allowedResponseCategories(Floor(Rnd() * allowedResponseCategories.Count))
                         Console.WriteLine("Category has been chosen by computer: " + responseCategory)
+                        Console.WriteLine("The computers card was: " + currentComputerCard.Name + " E: " + currentComputerCard.ExerciseScore.ToString + " I: " + currentComputerCard.IntelligenceScore.ToString + " F: " + currentComputerCard.FriendlinessScore.ToString + " D: " + currentComputerCard.DroolScore.ToString)
                     End If
 
                     If responseCategory = "E" Then
@@ -217,21 +225,25 @@ Module Game
 
                     If responseCategory = "D" Then
                         If playerStat <= computerStat Then
-                            YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard, playerWinsLastRound)
+                            YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard)
+                            playerWinsLastRound = True
                         Else
-                            ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard, playerWinsLastRound)
+                            ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard)
+                            playerWinsLastRound = False
                         End If
                     Else
                         If playerStat >= computerStat Then
-                            YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard, playerWinsLastRound)
+                            YouWin(playerPile, computerPile, currentPlayerCard, currentComputerCard)
+                            playerWinsLastRound = True
                         Else
-                            ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard, playerWinsLastRound)
+                            ComputerWins(playerPile, computerPile, currentPlayerCard, currentComputerCard)
+                            playerWinsLastRound = False
                         End If
                     End If
                     firstCardOnPile = firstCardOnPile + 1
 
                     roundNumber = roundNumber + 1
-                    Console.WriteLine("Round " + roundNumber.ToString)
+
 
                 End While
 
